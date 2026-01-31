@@ -81,9 +81,12 @@ INSERT INTO cars (name, car_type, year, km, price) VALUES
 ('toyota', 'qulis', 2002, 14537, 725000);
 SELECT username, LENGTH(password_hash), password_hash FROM admin;
 
+
+SELECT car_type, COUNT(*) AS total FROM cars GROUP BY car_type;
+SELECT car_type, COUNT(*) AS total FROM cars GROUP BY car_type HAVING COUNT(*) > 5
+
 /* --changing the admin password */
-ALTER TABLE admin
-MODIFY password_hash VARCHAR(255) NOT NULL;
+ALTER TABLE admin MODIFY password_hash VARCHAR(255) NOT NULL;
 
 DELETE FROM admin WHERE username = 'siva';
 Describe admin;
