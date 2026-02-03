@@ -72,16 +72,19 @@ ADD enquiry_type ENUM('buy', 'sell') NOT NULL DEFAULT 'buy';
 
 SELECT * FROM cars WHERE car_type = 'jeep';
 SELECT * FROM cars WHERE car_type = 'jeep' AND price < 400000;
+
+DESCRIBE admin;
+DESCRIBE users;
 DESCRIBE cars;
+USE zcars;
+
 SELECT * FROM cars;
 SELECT * FROM users;
 SELECT * FROM admin;
 SELECT * FROM enquiries;
-INSERT INTO cars (name, car_type, year, km, price) VALUES
-('toyota', 'qulis', 2002, 14537, 725000);
+INSERT INTO cars (name, car_type, year, km, price) VALUES ('toyota', 'qulis', 2002, 14537, 725000);
+
 SELECT username, LENGTH(password_hash), password_hash FROM admin;
-
-
 SELECT car_type, COUNT(*) AS total FROM cars GROUP BY car_type;
 SELECT car_type, COUNT(*) AS total FROM cars GROUP BY car_type HAVING COUNT(*) > 5
 
@@ -101,3 +104,19 @@ INSERT INTO admin (username, password_hash)VALUES
 SHOW TABLES;
 DESCRIBE admin;
 SELECT * FROM admin;
+
+
+/* --toyota qulis */
+
+INSERT INTO cars (name, car_type, year, km, price) VALUES ('toyota', 'qulis', 2002, 14537, 725000);
+DELETE FROM cars WHERE name = 'toyota' AND year = 2002;
+
+SELECT id FROM cars WHERE name = 'toyota' AND year = 2002;
+DELETE FROM cars WHERE id IN (27/*eter the car id which you want to delete*/);
+
+/* --toyota qulis */
+
+/* --safe mode on and offf */
+SET SQL_SAFE_UPDATES = 0; /*offf */
+SET SQL_SAFE_UPDATES = 1; /* onnn */
+/* --safe mode on and offf */
