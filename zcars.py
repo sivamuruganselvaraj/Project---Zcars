@@ -73,19 +73,19 @@ class AdminManager:
         admin = self.cursor.fetchone()
 
         if not admin or not check_password_hash(admin["password_hash"], password):
-            print("❌ Invalid admin credentials")
+            print("❌ Invalid admin login")
             return False
-
+        
         print("✅ Admin login successful")
         return True
 
-# -------------------- Car Management --------------------
+ # -------------------- Car Management --------------------
 class CarManager:
     def __init__(self):
         self.conn = db_connection()
         self.cursor = self.conn.cursor(dictionary=True)
 
-    def display_cars(self, car_type):
+    def displaycars(self, car_type):
         self.cursor.execute(
             "SELECT * FROM cars WHERE LOWER(car_type) = %s",
             (car_type.lower(),)
@@ -161,12 +161,12 @@ class AdminCRUD:
 
     def update_car_price(self):
         car_id = input("Car ID: ")
+        km = int(input("New Km: "))
         price = int(input("New Price: "))
 
         self.cursor.execute(
-            "UPDATE cars SET price=%s WHERE id=%s",
-            (price, car_id)
-        )
+            "UPDATE cars SET km=%s, price=%s WHERE id=%s",(km, price, car_id))
+
         self.conn.commit()
         print("✅ Car updated")
 
@@ -174,7 +174,7 @@ class AdminCRUD:
         car_id = input("Car ID to delete: ")
         self.cursor.execute("DELETE FROM cars WHERE id=%s", (car_id,))
         self.conn.commit()
-        print("🗑️ Car deleted")
+        print("🗑️ Car as been removed from the cart")
 
     # Enquiries CRUD
     def view_enquiries(self):
@@ -246,7 +246,7 @@ class ZCarsApp:
 
             if choice == "1":
                 car_type = input("Enter car type: ")
-                cars = self.car_manager.display_cars(car_type)
+                cars = self.car_manager.displaycars(car_type)
                 if cars:
                     self.car_manager.wishlist()
 
@@ -305,16 +305,11 @@ if __name__ == "__main__":
 
 
 #####creating and checking the hash value/hash password
-"""   
-from werkzeug.security import generate_password_hash
+"""
+from werkzeug.security import generate_password_hash, check_password_hash
 print(generate_password_hash("avis"))
 
-
-
-from werkzeug.security import check_password_hash
-
-hashval = "scrypt:32768:8:1$1vf3xAiuaqqwwN2J$5238e6f337a2c8b67f219a31aacc4337e439878e3cf6eea5d3850b12e73ea5db84417ffa2e37409b3949a198c65a0eb15538f35859b5c3141d065856b1fcdc01"
-
-print(check_password_hash(hashval, "avis"))
+hashvaluee = "scrypt:32768:8:1$1vf3xAiuaqqwwN2J$5238e6f337a2c8b67f219a31aacc4337e439878e3cf6eea5d3850b12e73ea5db84417ffa2e37409b3949a198c65a0eb15538f35859b5c3141d065856b1fcdc01"
+print(check_password_hash(hashvaluee, "avis"))
 """
 #####
